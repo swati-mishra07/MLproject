@@ -8,10 +8,10 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 
-from mlproject.utils import save_object
+from src.mlproject.utils import save_object
 
-from mlproject.exception import CustomException
-from mlproject.logger import logging
+from src.mlproject.exception import CustomException
+from src.mlproject.logger import logging
 import pickle
 import os 
 
