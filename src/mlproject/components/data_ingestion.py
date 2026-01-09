@@ -1,12 +1,10 @@
+from dataclasses import dataclass
 import os
 import sys
-from dataclasses import dataclass
-from mlproject.utils import read_sql_data
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from mlproject.exception import CustomException
 from mlproject.logger import logging
-from mlproject.utils import read_sql_data
 
 @dataclass
 class DataIngestionConfig:
@@ -14,16 +12,20 @@ class DataIngestionConfig:
     test_data_path: str = os.path.join('artifacts', 'test.csv')
     raw_data_path: str = os.path.join('artifacts', 'raw.csv')
 
+@dataclass
+class DataIngestionConfig:
+    train_data_path:str=os.path.join('artifacts','train.csv')
+    test_data_path:str=os.path.join('artifacts','test.csv')
+    raw_data_path:str=os.path.join('artifacts','raw.csv')
+
 class DataIngestion:
     def __init__(self):
-        self.ingestion_config = DataIngestionConfig()
-
+        self.ingestion_config=DataIngestionConfig()
 
     def initiate_data_ingestion(self):
-        
         try:
-             ##reading the data from mysql
-            df= read_sql_data()
+            ##reading the data from mysql
+            df=pd.read_csv(os.path.join('notebook/data','raw.csv'))
             logging.info("Reading completed mysql database")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
@@ -35,15 +37,13 @@ class DataIngestion:
 
             logging.info("Data Ingestion is completed")
 
-            return (
-               self.ingestion_config.train_data_path,
-               self.ingestion_config.test_data_path
-)
+            return(
+                self.ingestion_config.train_data_path,
+                self.ingestion_config.test_data_path
 
-           
+
+            )
+
+
         except Exception as e:
-            raise CustomException(e, sys)
-
-
-
-
+            raise CustomException(e,sys)
