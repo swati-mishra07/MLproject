@@ -4,8 +4,8 @@ import pymysql
 import pandas as pd
 import sys
 from sqlalchemy import create_engine
-from src.mlproject.exception import CustomException
-from src.mlproject.logger import logging
+from mlproject.exception import CustomException
+from mlproject.logger import logging
 
 
 load_dotenv()
