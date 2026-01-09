@@ -18,13 +18,11 @@ class DataIngestion:
 
     def initiate_data_ingestion(self):
         try:
-            # Path relative to project root
-            PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..'))
-            raw_csv_path = os.path.join(PROJECT_ROOT, 'notebook', 'data', 'raw.csv')
-
-            # Read CSV
+            
+            current_dir = os.path.dirname(os.path.abspath(__file__))  # src/mlproject/components
+            project_root = os.path.abspath(os.path.join(current_dir, '../../..'))  # go 3 levels up
+            raw_csv_path = os.path.join(project_root, 'notebook', 'data', 'raw.csv')
             df = pd.read_csv(raw_csv_path)
-            logging.info("Reading raw CSV completed from path: %s", raw_csv_path)
 
             # Create artifacts folder if it doesn't exist
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)
@@ -32,6 +30,10 @@ class DataIngestion:
             # Save raw data to artifacts
             df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
             logging.info("Raw data saved at: %s", self.ingestion_config.raw_data_path)
+
+            if not os.path.exists(raw_csv_path):
+              raise FileNotFoundError(f"{raw_csv_path} does not exist")
+
 
             # Split into train and test sets
             train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
