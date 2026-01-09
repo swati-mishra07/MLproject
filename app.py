@@ -1,7 +1,9 @@
+from mlproject import logger
 from mlproject.logger import logging
 from mlproject.exception import CustomException
 from mlproject.components.data_ingestion import DataIngestion
 from mlproject.components.data_ingestion import DataIngestionConfig
+
 import sys
 
 
